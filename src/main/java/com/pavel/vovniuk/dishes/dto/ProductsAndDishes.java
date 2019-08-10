@@ -3,11 +3,11 @@ package com.pavel.vovniuk.dishes.dto;
 import com.pavel.vovniuk.dishes.entity.Dish;
 import com.pavel.vovniuk.dishes.entity.Product;
 
-public class ProductsAndDish {
+public class ProductsAndDishes {
     private Dish dish;
     private Product product;
 
-    public ProductsAndDish(Dish dish, Product product) {
+    public ProductsAndDishes(Dish dish, Product product) {
         this.dish = dish;
         this.product = product;
     }

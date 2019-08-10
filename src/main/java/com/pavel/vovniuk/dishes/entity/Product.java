@@ -14,7 +14,7 @@ public class Product {
     private Long id;
     @Column(name = "product_title")
     private String name;
-    @Column(name = "cena_productu")
+    @Column(name = "product_price")
     private double price;
     @JsonIgnore
     @OneToMany(mappedBy = "product")

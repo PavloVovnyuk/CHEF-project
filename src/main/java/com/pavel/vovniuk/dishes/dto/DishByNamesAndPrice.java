@@ -1,19 +1,34 @@
 package com.pavel.vovniuk.dishes.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pavel.vovniuk.dishes.entity.Product;
 
 import java.util.List;
 
-public class DishByNameAndPrice {
+public class DishByNamesAndPrice {
 
 
     private List<ProductName> name;
     private double price;
 
-    public DishByNameAndPrice(){
+    private Product product;
+
+    public DishByNamesAndPrice(){
     }
 
-    public DishByNameAndPrice(List<ProductName> name, double price) {
+    public DishByNamesAndPrice(Product product) {
+        this.product = product;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public DishByNamesAndPrice(List<ProductName> name, double price) {
         this.name = name;
         this.price = price;
     }
@@ -36,7 +51,7 @@ public class DishByNameAndPrice {
 
     @Override
     public String toString() {
-        return "DishByNameAndPrice{" +
+        return "DishByNamesAndPrice{" +
                 "name=" + name +
                 ", price=" + price +
                 '}';

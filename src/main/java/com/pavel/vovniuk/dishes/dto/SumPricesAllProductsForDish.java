@@ -1,12 +1,12 @@
 package com.pavel.vovniuk.dishes.dto;
 
-public class SumPriceAllProductsForDish {
+public class SumPricesAllProductsForDish {
 
     private String title;
     private double priceSumAllProducts;
 
 
-    public SumPriceAllProductsForDish(String title, double priceSumAllProducts) {
+    public SumPricesAllProductsForDish(String title, double priceSumAllProducts) {
         this.title = title;
         this.priceSumAllProducts = priceSumAllProducts;
     }

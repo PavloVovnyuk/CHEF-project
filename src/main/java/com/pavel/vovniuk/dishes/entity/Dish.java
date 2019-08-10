@@ -12,15 +12,15 @@ import java.util.List;
 public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "danie_id")
+    @Column(name = "dish_id")
     private Long id;
-    @Column(name = "danie_title")
+    @Column(name = "dish_title")
     private String title;
-    @Column(name = "danie_picture")
+    @Column(name = "dish_picture")
     private String picture;
-    @Column(name = "danie_category")
+    @Column(name = "dish_category")
     private String dishesCategory;
-    @Column(name = "danie_price")
+    @Column(name = "dish_price")
     private Double dishPrice;
     @OneToMany(mappedBy = "dish")
     List<DishContainsProduct> dishContainsProducts;
