@@ -11,7 +11,7 @@
     <groupId>com.pavel.vovniuk</groupId>
     <artifactId>dishes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>dishes</name>
+    <nameOfProducts>dishes</nameOfProducts>
     <description>Demo project for Spring Boot</description>
 
     <properties>

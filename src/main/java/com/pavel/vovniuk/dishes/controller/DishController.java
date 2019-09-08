@@ -35,7 +35,7 @@ public class DishController {
      * @param title
      * @return danie po tytulie
      */
-    @GetMapping("/dishesBy/{title}")
+    @GetMapping("/dishesby/{title}")
     public ResponseEntity<List<Dish>> findDishesByTitle(@PathVariable("title") String title) {
         dishesList = dishesService.findDishByTitle(title);
         return new ResponseEntity<>(dishesList, HttpStatus.OK);
@@ -45,8 +45,8 @@ public class DishController {
      * @param dishesCategory
      * @return danie po kategorii
      */
-    @GetMapping("/dishesBy/category/{dishesCategory}")
-    public ResponseEntity<List<Dish>> findByCategory(@PathVariable("dishesCategory") String dishesCategory) {
+    @GetMapping("/dishesby/category/{dishescategory}")
+    public ResponseEntity<List<Dish>> findByCategory(@PathVariable("dishescategory") String dishesCategory) {
         dishesList = dishesService.findByDishesCategory(dishesCategory);
         return new ResponseEntity<>(dishesList, HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class DishController {
      * @return danie po Id
      */
 
-    @GetMapping("/dishBy/{id}")
+    @GetMapping("/dishby/{id}")
     public ResponseEntity<Dish> findDishById(@PathVariable("id") Long id) {
         Optional<Dish> dishOptional = dishesService.findById(id);
         Dish dish = dishOptional.orElse(null);
@@ -67,7 +67,7 @@ public class DishController {
      * @param id
      * @return usuwanie po Id
      */
-    @GetMapping("/deleteBy/{id}")
+    @GetMapping("/deleteby/{id}")
     public ResponseEntity<List<Dish>> deleteDishById(@PathVariable("id") Long id) {
         dishesService.deleteById(id);
         return new ResponseEntity<>(dishesList, HttpStatus.OK);
@@ -89,9 +89,9 @@ public class DishController {
      * @param dishesCategory
      * @return dania po tytulie i kategorii
      */
-    @GetMapping("/filtruj/{title}/{dishesCategory}")
+    @GetMapping("/filtruj/{title}/{dishescategory}")
     public ResponseEntity<List<Dish>> filtruj(@PathVariable("title") String title,
-                                              @PathVariable("dishesCategory") String dishesCategory) {
+                                              @PathVariable("dishescategory") String dishesCategory) {
         dishesList = dishRepository.findDishByUsingFilters(title, dishesCategory);
         return new ResponseEntity<>(dishesList, HttpStatus.OK);
     }

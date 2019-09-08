@@ -1,5 +1,4 @@
 package com.pavel.vovniuk.dishes.repository;
-
 import com.pavel.vovniuk.dishes.dto.*;
 import com.pavel.vovniuk.dishes.entity.DishContainsProduct;
 import com.pavel.vovniuk.dishes.entity.Product;
@@ -7,21 +6,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Set;
 
 @Repository
 public interface DishContainsProductRepository extends JpaRepository<DishContainsProduct, Long> {
 
-    @Query("SELECT NEW com.pavel.vovniuk.dishes.dto.ProductsAndDishes (d.dish, d.product) from DishContainsProduct  as d group by d.product")
-    List<ProductsAndDishes> findAllByDishId();
+    List<ProductsAndDishes> findAllByProductName(String name);
 
-    List<ProductsAndDishes> findAllByProduct(Product product);
+    List<ProductsAndDishes> findDishContainsProductByProductName(String nameOfProducts);
 
-    ProductsAndDishes findAllByProductName(String name);
+    List<ProductsAndDishes> findAllBy();
 
-    Set<ProductsAndDishes> findDishContainsProductByProductName(String name);
+    Set<ProductsAndDishes> findDishContainsProductsByDishId(Long dishId);
+
+
+
 
     /**
      * @param id

@@ -7,38 +7,26 @@ import java.util.List;
 
 public class DishByNamesAndPrice {
 
+    // zrobyty string
 
-    private List<ProductName> name;
+
+    private List<String> nameOfProducts;
     private double price;
 
-    private Product product;
-
-    public DishByNamesAndPrice(){
+    public DishByNamesAndPrice() {
     }
 
-    public DishByNamesAndPrice(Product product) {
-        this.product = product;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public DishByNamesAndPrice(List<ProductName> name, double price) {
-        this.name = name;
+    public DishByNamesAndPrice(List<String> nameOfProducts, double price) {
+        this.nameOfProducts = nameOfProducts;
         this.price = price;
     }
 
-    public List<ProductName> getName() {
-        return name;
+    public List<String> getNameOfProducts() {
+        return nameOfProducts;
     }
 
-    public void setName(List<ProductName> name) {
-        this.name = name;
+    public void setNameOfProducts(List<String> nameOfProducts) {
+        this.nameOfProducts = nameOfProducts;
     }
 
     public double getPrice() {
@@ -47,13 +35,5 @@ public class DishByNamesAndPrice {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "DishByNamesAndPrice{" +
-                "name=" + name +
-                ", price=" + price +
-                '}';
     }
 }

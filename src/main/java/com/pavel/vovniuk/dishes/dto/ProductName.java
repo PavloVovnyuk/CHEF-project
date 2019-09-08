@@ -1,15 +1,11 @@
 package com.pavel.vovniuk.dishes.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pavel.vovniuk.dishes.entity.Product;
+import java.util.List;
 
 public class ProductName {
     private String name;
 
     public ProductName() {
-    }
-    public ProductName(String name) {
-        this.name = name;
     }
 
     public String getName() {

@@ -19,56 +19,87 @@ public class DishContainsProductController implements Serializable {
     @Autowired
     DishContainsProductService dishContainsProductService;
 
-    @GetMapping("/getAll/dishAndProducts")
+    /**
+     *
+     * @return wszystkie dania i produkty
+     */
+    @GetMapping("/getall/dishesandproducts")
     public ResponseEntity<List<ProductsAndDishes>> findAllDishAndProduct() {
         List<ProductsAndDishes> listDishAndProducts = dishContainsProductService.findAllByDishAndProduct();
         return new ResponseEntity<>(listDishAndProducts, HttpStatus.OK);
     }
 
-    @GetMapping("/productsBy/dish/{dishId}")
-    public ResponseEntity<List<Product>> findProductsByDish(@PathVariable("dishId") Long id) {
-        List<Product> productsList = dishContainsProductService.findAllProductsByDish(id);
+    /**
+     *
+     * @param id
+     * @return produkty po id dania
+     */
+    @GetMapping("/productsby/dishid/{dishId}")
+    public ResponseEntity<Set<Product>> findProductsByDish(@PathVariable("dishId") Long id) {
+        Set<Product> productsList = dishContainsProductService.findAllProductsByDish(id);
         return new ResponseEntity<>(productsList, HttpStatus.OK);
     }
 
-    @GetMapping("/dishBy/name")
-    public ResponseEntity<Dish> dishWithPrice(ProductName name) {
-        Dish dish = dishContainsProductService.findDishByProductNameAndCalculateDishPrice(name);
-        return new ResponseEntity<>(dish, HttpStatus.OK);
+    /**
+     *
+     * @param name
+     *@return dania po nazwie productu
+     */
+    @PostMapping("getdishesby/productname")
+    public ResponseEntity<List<Dish>> findDishByProductName(@RequestBody ProductName name) {
+        List<Dish> dishesList = dishContainsProductService.findDishesAndProductsByProductName(name);
+        return new ResponseEntity<>(dishesList, HttpStatus.OK);
     }
 
-    @PostMapping("/dishBy/product")
-    public ResponseEntity<List<ProductsAndDishes>> findDishByProducts(@RequestBody Product product) {
-        List<ProductsAndDishes> dishList = dishContainsProductService.findDishByProduct(product);
+    /**
+     *
+     * @param namesObject
+     * @return wszystkie dania po liscie nazw produktów
+     */
+    @PostMapping("getallby/productsnameslist")
+    public ResponseEntity<List<Dish>> findAllByProductsNamesList(@RequestBody ProductsNames namesObject) {
+        System.out.println(namesObject + " vse tsky jest");
+        List<Dish> dishes = dishContainsProductService.findDishesAndProductsByProductsNamesList(namesObject);
+        return new ResponseEntity<>(dishes, HttpStatus.OK);
+    }
+    /**
+     *
+     * @param productName
+     * @return dishes with calculate price
+     */
+    @PostMapping("/disheswithpriceby/productname")
+    public ResponseEntity<List<Dish>> findDishesByProducts(@RequestBody ProductName productName) {
+        List<Dish> dishList = dishContainsProductService.findDishByProductNameAndCalculateDishPrice(productName);
         return new ResponseEntity<>(dishList, HttpStatus.OK);
     }
-
-    @PostMapping("/dishBy/productName")
-    public ResponseEntity<Dish> findDishByProductName(@RequestBody ProductName name) {
-        Dish dish = dishContainsProductService.findAllByProductName(name);
-        return new ResponseEntity<>(dish, HttpStatus.OK);
+    @PostMapping("/finddishby/productnamesandprice")
+    public ResponseEntity<Set<Dish>> findDishByProductNamesAndPrice(@RequestBody DishByNamesAndPrice listOfNamesAndPrice){
+        Set<Dish> dishes = dishContainsProductService.findDishContainsProductsByProductNamesListAndPrice(listOfNamesAndPrice);
+        return new ResponseEntity<>(dishes, HttpStatus.OK);
     }
 
-    @PostMapping("/dishesBy/productsName/price")
-    public ResponseEntity<Set<Dish>> findDishesByProducts(@RequestBody DishByNamesAndPrice listNamesAndPrice) {
-        System.out.println(listNamesAndPrice);
-        Set<Dish> dishList = dishContainsProductService.findDishContainsProductsByProductNameAndPrice(listNamesAndPrice);
-        return new ResponseEntity<>(dishList, HttpStatus.OK);
-    }
 
-    // nie wiem czy potrzebna
-    @PostMapping("/productstoby")
-    public ResponseEntity<List<Product>> productsToByu(@RequestBody DishByNamesAndPrice listNamesAndPrice) {
-        List<Product> productsListToByu = dishContainsProductService.productsToBy(listNamesAndPrice);
-        return new ResponseEntity<>(productsListToByu, HttpStatus.OK);
-    }
 
+
+//    Metody z Wykorzystaniem Qery
+    /**
+     *
+     * @param id
+     * @return produkty po id dania
+     * metoda Qery
+     */
     @GetMapping("/productsBy/Dish/{dishId}")
     public ResponseEntity<List<ProduktTitleDishName>> findAllProductForDish(@PathVariable("dishId") Long id) {
         List<ProduktTitleDishName> productsByDish = dishContainsProductService.findProductsByDish(id);
         return new ResponseEntity<>(productsByDish, HttpStatus.OK);
     }
 
+    /**
+     *
+     * @param id
+     * @return sume cen wszystkich produktów dla dania
+     * metoda Qery
+     */
     @GetMapping("/dishPriceBy/{dishId}")
     public ResponseEntity<List<SumPricesAllProductsForDish>> fullPriceForDish(@PathVariable("dishId") Long id) {
         List<SumPricesAllProductsForDish> priceAllProductsForDishes = dishContainsProductService.priceAllProductsForDish(id);

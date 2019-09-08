@@ -12,7 +12,7 @@ public class Product {
     @Id
     @Column(name = "product_id")
     private Long id;
-    @Column(name = "product_title")
+    @Column(name = "product_name")
     private String name;
     @Column(name = "product_price")
     private double price;
@@ -54,7 +54,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "Prod{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
