@@ -26,8 +26,7 @@ public class DishContainsProductService {
      * @return wszystkie dania i produkty
      */
     public List<ProductsAndDishes> findAllByDishAndProduct() {
-        List<ProductsAndDishes> listDishesAndProducts = dishContainsProductRepository.findAllBy();
-        return listDishesAndProducts;
+        return dishContainsProductRepository.findAllBy();
     }
 
     /**
@@ -93,7 +92,7 @@ public class DishContainsProductService {
      * @param dishes
      * @return dania z obliczoną ceną
      */
-    static List<Dish> calkulateDishPrice(List<Dish> dishes) {
+    private List<Dish> calkulateDishPrice(List<Dish> dishes) {
         List<Dish> dishesWithPrice = new ArrayList<>();
         Double dishPrice;
         for (Dish dish : dishes) {
@@ -142,10 +141,7 @@ public class DishContainsProductService {
     public List<String> productsNamesFromDish(Dish dish) {
         List<Product> products = productListFromDish(dish);
         List<String> productsNames = new ArrayList<>();
-        for (Product product : products) {
-            String name = product.getName();
-            productsNames.add(name);
-        }
+        products.stream().forEach(pr -> productsNames.add(pr.getName()));
         Collections.sort(productsNames);
         return productsNames;
     }
@@ -169,6 +165,11 @@ public class DishContainsProductService {
         return dishesForUser;
     }
 
+    /**
+     * @param products
+     * @param listOfNamesAndPrice
+     * @return produkty do kupienia
+     */
     public List<String> productsNameToCompare(List<Product> products, DishByNamesAndPrice listOfNamesAndPrice) {
         List<String> productsToBuy = new ArrayList<>();
         List<String> nameOfProducts = listOfNamesAndPrice.getNameOfProducts();
@@ -180,18 +181,41 @@ public class DishContainsProductService {
         return productsToBuy;
     }
 
+    /**
+     * @param products
+     * @param listOfNamesAndPrice
+     * @return suma pieniedzy w zaleznosci od listy produktow
+     */
     public Double priceToSpent(List<Product> products, DishByNamesAndPrice listOfNamesAndPrice) {
         double sum = 0;
-        List<String> nameOfProducts = listOfNamesAndPrice.getNameOfProducts();
+        double result = 0;
+        List<String> productNames = new ArrayList<>();
+        List<String> nameOfProductsFromUser = listOfNamesAndPrice.getNameOfProducts();
         for (Product product : products) {
-            if (nameOfProducts.contains(product.getName())) {
-                sum = listOfNamesAndPrice.getPrice() - product.getPrice();
-            }
+            String productName = product.getName();
+            productNames.add(productName);
         }
-        return sum;
+        Collections.sort(productNames);
+        Collections.sort(nameOfProductsFromUser);
+        if (productNames.equals(nameOfProductsFromUser)) {
+            result = listOfNamesAndPrice.getPrice();
+        } else {
+            for (Product product : products) {
+                if (!(nameOfProductsFromUser.contains(product.getName()))) {
+                    sum += product.getPrice();
+                }
+            }
+            result = listOfNamesAndPrice.getPrice() - sum;
+        }
+
+        return result;
     }
 
-
+    /**
+     * @param listOfDishes
+     * @param listOfNamesAndPrice
+     * @return producty do kupienia oraz informacje o pieniądzach
+     */
     public Set<ProductsToBuyAndPriceToSpent> differentOfMoney(List<Dish> listOfDishes, DishByNamesAndPrice listOfNamesAndPrice) {
         Set<ProductsToBuyAndPriceToSpent> productsToBuyAndPriceToSpentList = new LinkedHashSet<>();
         for (Dish dish : listOfDishes) {
@@ -200,7 +224,13 @@ public class DishContainsProductService {
             Double price = priceToSpent(products, listOfNamesAndPrice);
             ProductsToBuyAndPriceToSpent productsToBuyAndPriceToSpentObject = new ProductsToBuyAndPriceToSpent();
             productsToBuyAndPriceToSpentObject.setDish(dish);
-            productsToBuyAndPriceToSpentObject.setLackMoney(price);
+            if (price == 0) {
+                productsToBuyAndPriceToSpentObject.setNotUsedMoney(listOfNamesAndPrice.getPrice());
+            } else if (price > 0) {
+                productsToBuyAndPriceToSpentObject.setExcessMoney(price);
+            } else if (price < 0) {
+                productsToBuyAndPriceToSpentObject.setLackMoney(price);
+            }
             productsToBuyAndPriceToSpentObject.setProductsToBuy(productsSetToBuy);
             productsToBuyAndPriceToSpentList.add(productsToBuyAndPriceToSpentObject);
         }
@@ -208,6 +238,10 @@ public class DishContainsProductService {
 
     }
 
+    /**
+     * @param listOfNamesAndPrice
+     * @return informacje o zakupie w całaści
+     */
     public Set<ProductsToBuyAndPriceToSpent> productsToBuyAndPriceToSpent(DishByNamesAndPrice listOfNamesAndPrice) {
         List<String> nameOfProducts = listOfNamesAndPrice.getNameOfProducts();
         Collections.sort(nameOfProducts);
